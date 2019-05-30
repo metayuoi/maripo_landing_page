@@ -1,0 +1,270 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>MARIPO: детская одежда с ярким характером</title>
+    <link rel="shortcut icon" href="icon.ico">
+    <link rel="stylesheet" type="text/css" href="styles.css" charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Marck+Script|Neucha|Pacifico|Pangolin" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="gallery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="links.js" charset="utf-8"></script>
+    <script type="text/javascript" src="ajax.js" charset="utf-8"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bree+Serif|Merriweather" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Marck+Script" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="code_by_codrops_com/swing.css" />
+</head>
+<body>
+    <div id="header">
+        <ul class="menu">
+            <li class="gallery_link">Одежда <em>коллекция 2018</em></li>
+            <li value="delivery">Оплата & Доставка</li>
+            <li value="contacts">Контакты</li>
+            <li value="produce">Производство</li>
+            <li value="bonus">Бонусная программа</li>
+        </ul></div>
+    <table class="logo" width=100% height="300px"><td><img src="./graphics/etsi0.jpg" width=100%/></td>
+    </table>
+    <div id="main">
+        <div id="gallery">
+                <div class="intro"><span class="start_text">Любимая игрушка, любимая сказка, любимая рубашка… Сколько вещей нужно ребенку для счастья? <br />Немного, но они должны быть своими, любимыми.</span><span class="end_text"><br />Удобные, качественные вещи из натуральных тканей <em class="word word--swing">MARIPO</em>. Созданы для того, чтобы стать любимыми у вашего ребенка!</span></div>
+            <div class="gallery"></div>
+        </div>
+        <div id="slider" class="hidden">
+            <div class="preview">
+                <div class="scrollLeft"></div>
+                <div id="images"></div>
+                <div class="scrollRight"></div>
+            </div>
+            <div id="view">
+                <div class="image_block"></div>
+                <div class="info_block">
+                    <div class="inner_slides"></div>
+                    <div class="info_text">
+                        <p class="title"></p>
+                        <p class="price"></p>
+                        <span class="info"></span>
+                        <table class="props">
+                            <tr>
+                                <td>Размер:</td>
+                                <td class="sizes"></td>
+                            </tr>
+                            <tr>
+                                <td>Состав:</td>
+                                <td class="consist"></td>
+                            </tr>
+                            <tr>
+                                <td>Цвет:</td>
+                                <td class="colour"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <button class="order_btn">хочу заказать</button>
+                    <form class="order_form hidden" method="post" action="" id="ajaxform"> <br />
+                        <input type="text" size="32" maxlength="36" name="name" placeholder="Вaшe имя" val=""> <br />
+                        <input type="text" size="32" maxlength="36" name="email" placeholder="E-mail для обратной связи" val=""> <br />
+                        <textarea cols="25" rows="10" name="message" placeholder="" val=""></textarea> <br />
+                        <input type="submit" class="submit" value="далее"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="other">
+        </div>
+    </div>
+    <div class="footer">
+		<div><h3>О компании</h3>
+        <ul>
+            <li value="about">О нас</li>
+            <li value="style">Стиль Maripo</li>
+            <li value="wholesale">Оптовым клиентам</li>
+        </ul></div>
+		<div><h3>Информация</h3>
+        <ul>
+            <li value="delivery">Доставка и оплата</li>
+            <li value="refund">Обмен и возврат</li>
+            <li value="bonus">Бонусная программа</li>
+        </ul></div>
+		<div><h3>Помощь покупателю</h3>
+        <ul>
+            <li value="sizes">Соответствие размеров</li>
+            <li value="care">Уход за одеждой</li>
+        </ul></div>
+		<div><h3>Связаться с нами</h3>
+        <ul class="right">
+            <li><a href="tel:+7 9532735788">+7 9532735788</a></li>
+            <li>@maripo_kids</li>
+        </ul></div>
+    </div>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script>
+	$.fn.refreshGallery = function(num) {
+		var num = ($(this).attr("value") ? $(this).attr("value") : "0");
+	 	$(".image_block").html("<img src='./products/" + gallery[num].images[0] + "' width=50%>");
+        $(".inner_slides").html("");
+        for (i=0; i<gallery[num].images.length; i++) {
+            $(".inner_slides").html($(".inner_slides").html() + "<img src='./products/min/" + gallery[num].images[i] + "' height=100px value='" + i + "," + num + "'>")
+        }
+        $(".info").text(gallery[num].description);
+        $(".sizes").text(gallery[num].sizes);
+        $(".consist").text(gallery[num].consist);
+        $(".colour").text(gallery[num].colour);
+        $(".title").text(gallery[num].title);
+        $(".price").text(gallery[num].price + " ₽");
+		$(".inner_slides").children().eq(0).attr("id", "active_b");
+        $("textarea").text("Желаю приобрести товар «" + gallery[num].title + "».")
+ 	}
+	
+    $(function(){
+        $('.logo').height($('.logo').width()/4);
+    });
+		
+    $(document).ready(function() {
+        for (i=0; i<gallery.length; i++) {
+            $("#images").html($("#images").html() + "<img src='./products/min/" + gallery[i].images[0] + "' height=150px value=" + i + "></img>")
+        }
+        for (i=0; i<gallery.length; i++) {
+            $(".gallery").html($(".gallery").html() + "<figure value=" + i + "></figure>");
+			for(j=gallery[i].images.length-1; j>=0; j--) {
+				$(".gallery").children().eq(i).html($(".gallery").children().eq(i).html() + "<img src='./products/min/" + gallery[i].images[j] + "' width=200px>");
+			}
+			$(".gallery").children().eq(i).html($(".gallery").children().eq(i).html() + "<figcaption>" + gallery[i].title + "</figcaption>");
+        }
+    });
+        
+    $(".gallery").on("click", "figure", function() {
+        $(this).refreshGallery();
+        $("#gallery").attr("class", "hidden");
+        $("#slider").removeAttr("class");
+        $("#images").children().eq($(this).attr("value")).attr("id", "active_a");
+		
+		var pixelsBefore = $(this).attr("value") * (parseInt($("#images").children().css("borderRightWidth")) + parseInt($("#images").children().css("borderLeftWidth")));
+		for (i=0; i<$(this).attr("value"); i++) {
+			pixelsBefore += $("#images").children().eq(i).width();
+		}
+		var offsetWidth = $("#images")[0].offsetWidth;
+		var innerWidth = $("#images").children().length * (parseInt($("#images").children().css("borderRightWidth")) + parseInt($("#images").children().css("borderLeftWidth")))
+			for (i=0; i<$("#images").children().length; i++) {
+				innerWidth += $("#images").children().eq(i).width();
+			}
+		var selfWidth = $("#images").children().eq($(this).attr("value")).width() + parseInt($("#images").children().css("borderRightWidth")) + parseInt($("#images").children().css("borderLeftWidth"));
+		if (innerWidth > ((pixelsBefore - offsetWidth / 2 + selfWidth / 2) + offsetWidth)) {
+			$("#images").children().eq(0).animate({marginLeft: "-" + String(pixelsBefore - offsetWidth / 2 + selfWidth / 2) + "px"});
+		}
+		else {
+			$("#images").children().eq(0).animate({marginLeft: "-" + String(innerWidth - $("#images").width()) + "px"})
+		}
+																															
+    })
+
+    $("#images").on("click", "img", function() {
+        $("#active_a").removeAttr("id");
+        $("#active_b").removeAttr("id");
+        $(this).refreshGallery();
+        $(this).attr("id", "active_a");
+        $("#ajaxform").attr("class", "order_form hidden");
+    })
+
+    $(".inner_slides").on("click", "img", function() {
+        $("#active_b").removeAttr("id");
+        $(this).attr("id", "active_b")
+        var val = $(this).attr("value");
+        var arr = val.split(",");
+        $(".image_block").html("<img src='./products/" + gallery[arr[1]].images[arr[0]] + "' width=50%>");   
+    })
+
+    $("button").on("click", function() {
+        $("#ajaxform").attr("class", "order_form");
+    })
+
+    $("li").on("click", function() {
+        var value = $(this).attr("value");
+        if (typeof value !== typeof undefined && value !== false) {
+            $("#gallery").attr("class", "hidden");
+            $("#slider").attr("class", "hidden");
+            $("#other").removeClass("hidden");
+            $("#other").html(links[value])
+		}
+    })
+
+    $(".gallery_link").on("click", function() {
+        $("#gallery").attr("class", "hidden");
+        $("#other").attr("class", "hidden");
+        $("#slider").removeClass("hidden");
+        if (!$("#images").children().is("#active_a")) {
+            $("#images").children().eq(0).attr("id", "active_a");
+        	$(this).refreshGallery();
+            $("#ajaxform").attr("class", "order_form hidden");
+        }
+    })
+
+    $(".image_block").on("click", "img", function(){
+        var image = $(this).attr("src");
+        window.open(image, "a", "width=" + $(this).prop('naturalWidth') + ", height=" + $(this).prop('naturalHeight'));
+    })
+
+	$(".gallery").on("mouseover", "figure>img", function() {
+		if($(this).prev().is("img")) {
+			$(this).fadeOut(800);
+		}
+		else {
+			$(this).siblings().filter("img").each(function() {
+				$(this).fadeIn(800);
+			})
+		}
+	});
+		
+	$(".gallery").on("mouseleave", "figure", function(event) {
+				$(this).children().filter("img").each(function() {
+					console.log($(this))
+					$(this).fadeIn(600);
+				})
+	});
+        
+    $(".preview").on("click", ".scrollRight", function() {
+        var innerWidth = $("#images").children().length * (parseInt($("#images").children().css("borderRightWidth")) + parseInt($("#images").children().css("borderLeftWidth")));
+        for (i=0; i<$("#images").children().length; i++) {
+            innerWidth += $("#images").children().eq(i).width();
+        }
+        innerWidth = innerWidth - $("#images").width();
+        innerWidth = parseInt(innerWidth);
+        const scrollWidth = parseInt($("#images").width() / 2);
+        var currentMargin = parseInt($("#images").children(0).css("margin-left"));
+        if (Math.abs(currentMargin - scrollWidth) < innerWidth) {
+            var result = String(currentMargin - scrollWidth) + "px";
+            $("#images").children().eq(0).animate({marginLeft: result})
+        }
+        else {
+            $("#images").children().eq(0).animate({marginLeft: "-" + String(innerWidth) + "px"})
+        }
+    })  
+    $(".preview").on("click", ".scrollLeft", function() {
+        if (parseInt($("#images").children().eq(0).css("margin-left")) < 2) {
+            var result = parseInt($("#images").children().eq(0).css("margin-left")) + parseInt($("#images").width() / 2)
+            if (result < 0) {
+                $("#images").children().eq(0).animate({marginLeft: String(result) + "px"})
+            }
+            else {
+                $("#images").children().eq(0).animate({marginLeft: 0})
+            }
+    	}
+	})
+		
+    $(window).resize(function(){
+			$('.logo').height($('.logo').width()/4);
+		
+            var innerWidth = $("#images").children().length * (parseInt($("#images").children().css("borderRightWidth")) + parseInt($("#images").children().css("borderLeftWidth")))
+            for (i=0; i<$("#images").children().length; i++) {
+                innerWidth += $("#images").children().eq(i).width();
+            }
+            scrollWidth = innerWidth - $("#images").width();
+            scrollWidth = parseInt(scrollWidth);
+            var currentMargin = parseInt($("#images").children(0).css("margin-left"));
+            if (Math.abs(currentMargin) > scrollWidth) {
+                $("#images").children().eq(0).animate({marginLeft: "-" + String(scrollWidth) + "px"})
+            }
+    });
+    </script>
+	<script src="code_by_codrops_com/charming.min.js"></script>
+	<script src="code_by_codrops_com/anime.min.js"></script>
+	<script src="code_by_codrops_com/demo4.js"></script>
+</body>
